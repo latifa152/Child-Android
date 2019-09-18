@@ -126,7 +126,26 @@ public class SplashScreen extends AppCompatActivity {
                     }
                 } );
     }
+    public void clearFB(){
 
+        DatabaseReference   users = FirebaseDatabase.getInstance().getReference( Common.Child_information_tb1);
+        users.child(  FirebaseAuth.getInstance().getUid() )
+                // .child( "PhoneBook" )
+                .removeValue()
+                .addOnSuccessListener( new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Toast.makeText(getApplicationContext(), "abc",Toast.LENGTH_LONG ).show();
+                    }
+                } )
+                .addOnFailureListener( new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        //  Toasty.error( getApplicationContext(), "Failed ! " + e.getMessage(), Toast.LENGTH_LONG, true ).show();
+
+                    }
+                } );
+    }
     public void getProfile(){
 
         DatabaseReference riderInformation = FirebaseDatabase.getInstance().getReference( );
@@ -136,7 +155,7 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ChildPRofile obj = dataSnapshot.getValue( ChildPRofile.class );
-
+                clearFB();
                 try {
                     Common.childUser.setcName(obj.getName());
                     Common.childUser.setcAvatarUrl(obj.getAvatarUrl());
